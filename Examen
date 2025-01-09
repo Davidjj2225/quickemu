@@ -1,0 +1,90 @@
+class Donante:
+    def __init__(self, id_donante, nombre, email):
+        self.id_donante = id_donante
+        self.nombre = nombre
+        self.email = email
+
+    def __str__(self):
+        return f"Donante[ID: {self.id_donante}, Nombre: {self.nombre}, Email: {self.email}]"
+
+
+class Proyecto:
+    def __init__(self, id_proyecto, nombre, descripcion):
+        self.id_proyecto = id_proyecto
+        self.nombre = nombre
+        self.descripcion = descripcion
+
+    def __str__(self):
+        return f"Proyecto[ID: {self.id_proyecto}, Nombre: {self.nombre}, Descripción: {self.descripcion}]"
+
+
+class Donacion:
+    def __init__(self, id_donacion, donante, proyecto, monto):
+        self.id_donacion = id_donacion
+        self.donante = donante
+        self.proyecto = proyecto
+        self.monto = monto
+
+    def __str__(self):
+        return (f"Donación[ID: {self.id_donacion}, Donante: {self.donante.nombre}, "
+                f"Proyecto: {self.proyecto.nombre}, Monto: ${self.monto}]")
+
+
+class GestionDonaciones:
+    def __init__(self):
+        self.donantes = []
+        self.proyectos = []
+        self.donaciones = []
+
+    def agregar_donante(self, id_donante, nombre, email):
+        nuevo_donante = Donante(id_donante, nombre, email)
+        self.donantes.append(nuevo_donante)
+        print(f"Donante agregado: {nuevo_donante}")
+
+    def agregar_proyecto(self, id_proyecto, nombre, descripcion):
+        nuevo_proyecto = Proyecto(id_proyecto, nombre, descripcion)
+        self.proyectos.append(nuevo_proyecto)
+        print(f"Proyecto agregado: {nuevo_proyecto}")
+
+    def registrar_donacion(self, id_donacion, id_donante, id_proyecto, monto):
+        donante = next((d for d in self.donantes if d.id_donante == id_donante), None)
+        proyecto = next((p for p in self.proyectos if p.id_proyecto == id_proyecto), None)
+
+        if donante and proyecto:
+            nueva_donacion = Donacion(id_donacion, donante, proyecto, monto)
+            self.donaciones.append(nueva_donacion)
+            print(f"Donación registrada: {nueva_donacion}")
+        else:
+            print("Error: Donante o proyecto no encontrado.")
+
+    def mostrar_donantes(self):
+        print("\nLista de Donantes:")
+        for donante in self.donantes:
+            print(donante)
+
+    def mostrar_proyectos(self):
+        print("\nLista de Proyectos:")
+        for proyecto in self.proyectos:
+            print(proyecto)
+
+    def mostrar_donaciones(self):
+        print("\nLista de Donaciones:")
+        for donacion in self.donaciones:
+            print(donacion)
+
+
+if __name__ == "__main__":
+    sistema = GestionDonaciones()
+
+    sistema.agregar_donante(1, "Juan Perez", "juan@example.com")
+    sistema.agregar_donante(2, "Maria Lopez", "maria@example.com")
+
+    sistema.agregar_proyecto(1, "Construcción de pozos", "Proveer agua potable en zonas rurales.")
+    sistema.agregar_proyecto(2, "Educación para niños", "Ofrecer materiales escolares a niños necesitados.")
+
+    sistema.registrar_donacion(1, 1, 1, 500)
+    sistema.registrar_donacion(2, 2, 2, 300)
+
+    sistema.mostrar_donantes()
+    sistema.mostrar_proyectos()
+    sistema.mostrar_donaciones()
